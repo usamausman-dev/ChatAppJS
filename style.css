@@ -1,0 +1,47 @@
+body,html{
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+
+body{
+    background-image: linear-gradient(180deg,#dddbd1,#d2dbdc);
+}
+
+.top{
+    height: 130px;
+    width: 100%;
+    background-color: #009688;
+    position: fixed;
+    z-index: -1;
+}
+
+.chatbox{
+    height: calc(100% - 40px);
+    margin-top: 20px;
+}
+
+.profile{
+    height: 30px;
+    width: 30px;
+
+}
+
+.icon{
+    font-size: 20px;
+}
+
+.google{
+    font-weight: 500;
+}
+
+.loginBox{
+    margin: 50px auto;
+}
+
+#messageArea{
+    overflow-y: scroll;
+    overflow-x: hidden;
+}

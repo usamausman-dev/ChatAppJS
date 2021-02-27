@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatApp</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://kit.fontawesome.com/52211bb9a0.js" crossorigin="anonymous"></script>
+    <script src="app.js"></script>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-auth.js"></script>
+    <script src="firebase_config.js"></script>
+
+</head>
+
+<body>
+    <div class="top"></div>
+    <div class="container bg-white shadow-lg rounded chatbox">
+        <div class="row h-100">
+            <div class="col-md-12 px-0" id="ChatBox" style="display: none;">
+                <div class="card" style="height: 94vh;">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-1">
+                                <img src="pp.png" class="profile rounded-circle" id="profilePic" title="user">
+                            </div>
+
+                            <div class="col-md-4">
+                                <h5 id="myUser" style="display: inline;" class="text-secondary">User Name</h5></br>
+                                <small class="text-muted" id="myEmail">uusman004@gmail.com</small>
+                            </div>
+                            <div class="col-md-5">
+                                <!-- <h5 class="text-secondary pt-1 text-center">Chat Application</h5> -->
+                            </div>
+                            <div class="col-md-2">
+                                <div class="row">
+                                    <div class="col-md-4"></div>
+                                    <div class="col-md-3">
+                                        <!-- Large modal -->
+                                        <button type="button" class="btn btn-link" data-toggle="modal"
+                                            data-target=".bd-example-modal-lg" onclick="generateList()">
+                                            <i class="fas fa-users text-secondary icon"></i>
+                                        </button>
+
+                                        <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
+                                            aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Users</h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <ul class="list-group list-group-flush" id="listFriend">
+
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button class="btn btn-link" onclick="signOut()">
+                                            <i class="fas fa-sign-out-alt text-secondary icon"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body" id="messageArea">
+                       
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-md-11">
+                                <input id="textMessage" type="text" class="form-control rounded"
+                                    placeholder="Type Here">
+                            </div>
+                            <div class="col-md-1">
+                                <button class="btn btn-link" onclick="sendMessage()">
+                                    <i class="fas fa-location-arrow text-secondary"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12" id="loginBox">
+                <div class="card loginBox text-center" style="width: 20rem;height: 25rem;">
+                    <div class="card-header">
+                        <h5 class="card-title my-2">Welcome to ChatApp</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="nav nav-pills mb-3 nav-justified" id="pills-tab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="pills-SignIn-tab" data-toggle="pill" href="#pills-SignIn"
+                                    role="tab" aria-controls="pills-SignIn" aria-selected="true">Sign-In</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="pills-SignUp-tab" data-toggle="pill" href="#pills-SignUp"
+                                    role="tab" aria-controls="pills-SignUp" aria-selected="false">Sign-Up</a>
+                            </li>
+
+                        </ul>
+                        <div class="tab-content" id="pills-tabContent">
+                            <div class="tab-pane fade show active" id="pills-SignIn" role="tabpanel"
+                                aria-labelledby="pills-SignIn-tab">
+
+                                <div class="p-2">
+                                    <div class="form-group">
+                                        <input type="email" class="form-control" id="SignIn_email"
+                                            aria-describedby="emailHelp" placeholder="Enter email">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" class="form-control" id="SignIn_password"
+                                            placeholder="Password">
+                                    </div>
+                                    
+                                    <button class="btn btn-block mt-1" onclick="SignIn()">
+                                        <span class="google">
+                                            Sign In
+                                        </span>
+                                    </button>
+
+                                    <p class="my-2">Or you can sign-in with</p>
+                                    <button class="btn btn-block mt-1" onclick="GooglesignIn()">
+                                        <i class="fab fa-google mr-2"></i>
+                                        <span class="google">
+                                            Sign With Google
+                                        </span>
+                                    </button>
+                                    <!-- <button class="btn btn-block mt-1">
+                                        <i class="fab fa-facebook-square mr-2"></i>
+                                        <span class="google">
+                                            Sign With Facebook
+                                        </span>
+                                    </button> -->
+
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="pills-SignUp" role="tabpanel"
+                                aria-labelledby="pills-SignUp-tab">
+                                <div class="p-2">
+                                    <div class="form-group">
+                                        <input type="email" class="form-control" id="email" aria-describedby="emailHelp"
+                                            placeholder="Enter email">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" class="form-control" id="password"
+                                            placeholder="Password">
+                                    </div>
+                                    <button onclick="SignUp()" class="btn btn-primary btn-block">SignUp</button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+
+    </div>
+</body>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+
+</html>
